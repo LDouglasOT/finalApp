@@ -11,6 +11,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { useContext } from 'react';
 import LoginContext from '../ContextApi/AppContext';
+import PersonalPosts from './ProfilePosts';
 
 
 const Profile = () => {
@@ -118,7 +119,7 @@ const Profile = () => {
   </View>
     </View>
     <Text>Your Posts</Text>   
-
+    {loggedUser && <PersonalPosts userid={loggedUser?.id} navigation={navigation} FirstName={loggedUser?.FirstName} LastName={loggedUser?.LastName} />}
     </ScrollView>
   )
 }

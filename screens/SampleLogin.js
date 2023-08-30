@@ -12,86 +12,90 @@ import { registerIndieID } from 'native-notify';
 
 import { COLORS } from '../assets/Config/colors';
 
-const SampleLogin = ({navigation}) => {
-    const [ phoneNumber, setPhoneNumber ] = useState("")
-    const [ Password, setPassword ] = useState("")
-    const [visible,setVisible] = useState(false)
-    const [error,setError] = useState(false)
-    const { initSocket } = useContext(LoginContext)
-    const [location,setLocation] = useState(null)
-    useEffect(()=>{
-      async function getLocation(){
-        try{
-          const response = await axios.get("https://ipinfo.io?token=e7e1fce8238076")
-          setLocation(response.data.country)
-        }catch(err){
-          console.log(err.message)
-        }
-  
+const SampleLogin = ({ navigation }) => {
+  const [phoneNumber, setPhoneNumber] = useState("")
+  const [Password, setPassword] = useState("")
+  const [visible, setVisible] = useState(false)
+  const [error, setError] = useState(false)
+  const { initSocket } = useContext(LoginContext)
+  const [location, setLocation] = useState(null)
+  useEffect(() => {
+    async function getLocation() {
+      try {
+        const response = await axios.get("https://ipinfo.io?token=e7e1fce8238076")
+        setLocation(response.data.country)
+      } catch (err) {
+        console.log(err.message)
       }
-      getLocation()
-    },[0])
-  const proceed = async()=>{
-    try{
-    if(Password == "" || phoneNumber == ""){
-      ToastAndroid.showWithGravity(
-        "Some fields are missing or blank, fill them first",
-        ToastAndroid.LONG,
-        ToastAndroid.CENTER)
+
+    }
+    getLocation()
+  }, [0])
+  const proceed = async () => {
+    try {
+      if (Password == "" || phoneNumber == "") {
+        ToastAndroid.showWithGravity(
+          "Some fields are missing or blank, fill them first",
+          ToastAndroid.LONG,
+          ToastAndroid.CENTER)
         return
-    }
-    
-    setVisible(true)
-    const data = {
-      "phoneNumber":phoneNumber, "password":Password
-    }
- 
-    const res = await axios.post("http://192.168.18.5:3001/api/login",data)
-    if(res.status == 200){
-      const data = await AsyncStorage.setItem("credentials",JSON.stringify(res.data))
-      await registerIndieID(`${res.data.id}`, 10140, 'drpVcF7TNyQVJ8WceIm3ou');
-      console.log("sending data payload")
-      await axios.post(`https://app.nativenotify.com/api/indie/notification`, {
-      subID: `${res.data.id}`,
-      appId: 10140,
-      appToken: 'drpVcF7TNyQVJ8WceIm3ou',
-      title: `Success`,
-      message: `Successfully logged in as ${res.data.FirstName} ${res.data.LastName}`,
-      pushData: { screenName: "MainScreen" }
-       });
-      initSocket()
+      }
+
+      setVisible(true)
+      const data = {
+        "phoneNumber": phoneNumber, "password": Password
+      }
+
+      const res = await axios.post("https://yodatebackend.tech/api/login", data)
+      console.log("login start")
+      if (res.status == 200) {
+        const data = await AsyncStorage.setItem("credentials", JSON.stringify(res.data))
+        await registerIndieID(`${res.data.id}`, 10140, 'drpVcF7TNyQVJ8WceIm3ou');
+        console.log("sending data payload")
+        setVisible(false)
+        navigation.navigate("MainScreen")
+        await axios.post(`https://app.nativenotify.com/api/indie/notification`, {
+          subID: `${res.data.id}`,
+          appId: 10140,
+          appToken: 'drpVcF7TNyQVJ8WceIm3ou',
+          title: `Success`,
+          message: `Successfully logged in as ${res.data.firstname} ${res.data.lastname}`,
+          pushData: { screenName: "MainScreen" }
+        });
+        initSocket()
+
+
+      }
+    } catch (err) {
+      console.log(err.message)
+      console.log(err.message)
       setVisible(false)
-      navigation.navigate("MainScreen")
-    
-    }
-  }catch(err){
-    console.log(err.message)
-    console.log(err.message)
-    setVisible(false)
-    if(err.message.includes("401")){
-      setError(true)
-      setTimeout(()=>{
+      if (err.message.includes("401")) {
+        setError(true)
+        setTimeout(() => {
           setError(false)
-      },2000)
-    }else if(err.message.includes("400")){
-      setError(true)
-    setTimeout(()=>{
-        setError(false)
-    },2000)
-}}}
+        }, 2000)
+      } else if (err.message.includes("400")) {
+        setError(true)
+        setTimeout(() => {
+          setError(false)
+        }, 2000)
+      }
+    }
+  }
   const handleSignup = () => {
-  navigation.navigate("Register")
-}
+    navigation.navigate("Register")
+  }
 
   return (
     <View style={styles.container}>
-  
-        <LoginPopup visible={visible}/>
-        <IncorrectLoginModal visible={error}/>
-        <View style={{display:'flex',flexDirection:'row',alignItems:'flex-end',justifyContent:'flex-end'}}>
+
+      <LoginPopup visible={visible} />
+      <IncorrectLoginModal visible={error} />
+      <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'flex-end' }}>
         <Text style={styles.logo}>YoDate<Text style={styles.location}>.{location}</Text></Text>
-   
-        </View>
+
+      </View>
       <View style={styles.inputView}>
         <TextInput
           style={styles.inputText}
@@ -99,7 +103,7 @@ const SampleLogin = ({navigation}) => {
           placeholderTextColor="#003f5c"
           keyboardType="phone-pad"
           value={phoneNumber}
-          onChangeText={(text)=>setPhoneNumber(text)}
+          onChangeText={(text) => setPhoneNumber(text)}
         />
       </View>
       <View style={styles.inputView}>
@@ -109,16 +113,16 @@ const SampleLogin = ({navigation}) => {
           placeholderTextColor="#003f5c"
           secureTextEntry={true}
           value={Password}
-          onChangeText={(text)=>setPassword(text)}
+          onChangeText={(text) => setPassword(text)}
         />
       </View>
-      <TouchableOpacity style={styles.loginBtn} onPress={()=>proceed()}>
+      <TouchableOpacity style={styles.loginBtn} onPress={() => proceed()}>
         <Text style={styles.loginText}>LOGIN</Text>
       </TouchableOpacity>
-      <View style={{marginTop:25}}>
-      <TouchableOpacity onPress={handleSignup} >
-        <Text style={styles.signupText}>Don't have an account? Sign up</Text>
-      </TouchableOpacity>
+      <View style={{ marginTop: 25 }}>
+        <TouchableOpacity onPress={handleSignup} >
+          <Text style={styles.signupText}>Don't have an account? Sign up</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -145,7 +149,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     justifyContent: 'center',
     padding: 20,
-    elevation:10
+    elevation: 10
   },
   inputText: {
     height: 50,
@@ -160,7 +164,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 40,
     marginBottom: 10,
-    elevation:10
+    elevation: 10
   },
   loginText: {
     color: '#fff',
@@ -170,10 +174,10 @@ const styles = StyleSheet.create({
     color: '#003f5c',
     textDecorationLine: 'underline',
   },
-  location:{
-    fontSize:15,
-    color:COLORS.black,
-    fontWeight:'400'
+  location: {
+    fontSize: 15,
+    color: COLORS.black,
+    fontWeight: '400'
   }
 });
 

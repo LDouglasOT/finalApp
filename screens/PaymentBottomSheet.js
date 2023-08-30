@@ -21,7 +21,7 @@ const PaymentBottomSheet = ({ isVisible, onClose, onSubmitPayment }) => {
   const [loading, setLoading] = useState(false);
   const [numofmonths, setNumOfMonths] = useState(1);
   const [incorrect, setIncorrect] = useState(false);
-  const [isChecked,setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
 
   const handlePay = async () => {
     try {
@@ -60,9 +60,9 @@ const PaymentBottomSheet = ({ isVisible, onClose, onSubmitPayment }) => {
       };
       setLoading(true);
       const req = await axios.post(
-        'http://192.168.18.5:3001/api/subscribe',
+        'https://yodatebackend.tech/api/subscribe',
         data,
-        { headers:headers }
+        { headers: headers }
       );
       if (req.status === 200) {
         setLoading(false);
@@ -86,28 +86,28 @@ const PaymentBottomSheet = ({ isVisible, onClose, onSubmitPayment }) => {
     }
     setNumOfMonths(numofmonths - 1);
   };
-  if(isChecked){
-    return(
+  if (isChecked) {
+    return (
       <Modal
-      visible={isVisible}
-      animationType="slide"
-      transparent={true}
-    >
-      <View style={styles.modalBackground}>
-      <View contentContainerStyle={styles.container}>
-      <LottieView
-        source={require('../assets/Lottie/animation_ll6lpdml.json')}
-        autoPlay
-        loop={false}
-        style={{ height: 300, width: 300,top:10 }}
-        onAnimationFinish={()=>{
-          setIsChecked(false)
-          onClose()
-        }}
-      />
-      </View>
-      </View>
-    </Modal>
+        visible={isVisible}
+        animationType="slide"
+        transparent={true}
+      >
+        <View style={styles.modalBackground}>
+          <View contentContainerStyle={styles.container}>
+            <LottieView
+              source={require('../assets/Lottie/animation_ll6lpdml.json')}
+              autoPlay
+              loop={false}
+              style={{ height: 300, width: 300, top: 10 }}
+              onAnimationFinish={() => {
+                setIsChecked(false)
+                onClose()
+              }}
+            />
+          </View>
+        </View>
+      </Modal>
     )
   }
   return (
@@ -135,7 +135,7 @@ const PaymentBottomSheet = ({ isVisible, onClose, onSubmitPayment }) => {
               <Entypo name="plus" size={20} color="black" />
             </TouchableOpacity>
           </View>
-          <Text style={{marginVertical:5}}>{numofmonths} Month/s - {numofmonths * 5000}</Text>
+          <Text style={{ marginVertical: 5 }}>{numofmonths} Month/s - {numofmonths * 5000}</Text>
           <TextInput
             style={styles.input}
             placeholder="Enter phone number to charge"
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     width: '80%',
     Height: '90%',
-    
+
   },
   title: {
     fontSize: 24,

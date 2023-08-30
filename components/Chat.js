@@ -21,7 +21,6 @@ const Chat = ({ data, tochat, userdata, typings }) => {
       const jsondata = JSON.parse(await AsyncStorage.getItem('credentials'));
       setMain(jsondata);
       let user = data.chatUser.filter((data) => data.id !== jsondata.id);
-
       setdata(user[0]);
       try {
         if (user[0].imgx !== null) {

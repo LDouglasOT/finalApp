@@ -15,30 +15,30 @@ const DetailsPage = ({ route, navigation }) => {
   const [commentText, setComment] = useState(null);
   const [message, setMessage] = useState(false);
   const [tag, setTag] = useState('');
-  const [commenting,setCommenting] = useState(false)
-  const [liking,setLiking] = useState(false)
+  const [commenting, setCommenting] = useState(false)
+  const [liking, setLiking] = useState(false)
   useEffect(() => {
     axios.post(`https://app.nativenotify.com/api/analytics`, {
-         app_id: 10140,
-         app_token: 'drpVcF7TNyQVJ8WceIm3ou',
-         screenName: 'DetailsPage'
-     });
-});
+      app_id: 10140,
+      app_token: 'drpVcF7TNyQVJ8WceIm3ou',
+      screenName: 'DetailsPage'
+    });
+  });
 
-useEffect(()=>{
-  const checkLiked =async()=>{
-    try{
-    const liked = JSON.parse(await AsyncStorage.getItem("likes")) ||[]
-    console.log(liked)
-      if(liked.includes(moment.id.toString())){
-       setLiked(true)
+  useEffect(() => {
+    const checkLiked = async () => {
+      try {
+        const liked = JSON.parse(await AsyncStorage.getItem("likes")) || []
+        console.log(liked)
+        if (liked.includes(moment.id.toString())) {
+          setLiked(true)
+        }
+      } catch (err) {
+        console.log(err.message)
       }
-    }catch(err){
-      console.log(err.message)
     }
-  }
-  checkLiked()
-},[])
+    checkLiked()
+  }, [])
 
   const handleLike = () => {
     setLiked(!liked);
@@ -69,7 +69,7 @@ useEffect(()=>{
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      const res = await axios.post('http://192.168.18.5:3001/api/comment', data,{headers:headers});
+      const res = await axios.post('https://yodatebackend.tech/api/comment', data, { headers: headers });
       if (res.status === 200) {
         console.log(res.data);
         setComments([res.data, ...comments]);
@@ -90,7 +90,7 @@ useEffect(()=>{
         setLiking(false);
         return;
       }
-  
+
       setLiked(liked);
       const data = {
         momentLiked: moment.owenId,
@@ -102,7 +102,7 @@ useEffect(()=>{
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      const response = await axios.post('http://192.168.18.5:3001/api/likemoment', data,{headers:headers});
+      const response = await axios.post('https://yodatebackend.tech/api/likemoment', data, { headers: headers });
       if (response.status === 200) {
         setLiking(false);
         liked.push(moment.id.toString()); // Convert moment.id to string before pushing
@@ -114,7 +114,7 @@ useEffect(()=>{
       console.log(err.message);
     }
   };
-  
+
 
   return (
     <ScrollView style={styles.container}>
@@ -127,7 +127,7 @@ useEffect(()=>{
         </Text>
         <Text style={styles.hashtags}>#{moment.HashTag}</Text>
         <Text style={styles.likes}>{moment.Likes} Likes</Text>
-       {liking ? <ActivityIndicator size="large" style={styles.loader} />:<TouchableOpacity style={styles.likeButton} onPress={() => Like(moment)}>
+        {liking ? <ActivityIndicator size="large" style={styles.loader} /> : <TouchableOpacity style={styles.likeButton} onPress={() => Like(moment)}>
           <Text style={styles.likeButtonText}>{liked ? 'Unlike' : 'Like'}</Text>
         </TouchableOpacity>}
         <TouchableOpacity style={styles.backButton} onPress={() => navigation.pop()}>
@@ -152,7 +152,7 @@ useEffect(()=>{
           autoCorrect
           maxLength={150}
         />
-        {commenting ? <ActivityIndicator size="large" style={styles.loader} />:<TouchableOpacity style={styles.addCommentButton} onPress={handleAddComment}>
+        {commenting ? <ActivityIndicator size="large" style={styles.loader} /> : <TouchableOpacity style={styles.addCommentButton} onPress={handleAddComment}>
           <Text style={styles.addCommentButtonText}>Add Comment</Text>
         </TouchableOpacity>}
         {Array.isArray(comments) && comments.reverse().map((comment, index) => (

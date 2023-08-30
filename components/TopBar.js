@@ -52,19 +52,6 @@ export default function TopBar({title,gotoProfile,addPopup,button,execute }) {
         alert('Must use physical device for Push Notifications');
       }
     }
-    const triggerNotifications = async () => {
-      console.log("clicked")
-      await Notifications.scheduleNotificationAsync({
-      content: {
-      title: "You've got mail! 📬",
-      body: "Here is the notification body",
-      data: { data: "goes here" },
-      },
-      trigger: { seconds: 2 },
-      badge:10
-      });
-      
-    }
     useEffect(()=>{
       registerForPushNotificationsAsync()
     },[0])
@@ -91,7 +78,10 @@ export default function TopBar({title,gotoProfile,addPopup,button,execute }) {
       <TouchableOpacity onPress={()=>addPopup()} style={styles.iconButton}>
         <FontAwesome5 name="gifts" size={24} color="#444" />
       </TouchableOpacity>
-      <Button onPress={triggerNotifications} title="Trigger Local Notifications" color="#841584" accessibilityLabel="Trigger Local Notifications"/>
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.subtitle}>{online.length} online</Text>
+      </View>
       {products()}
     </View>
   );

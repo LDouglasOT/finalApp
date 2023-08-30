@@ -84,7 +84,7 @@ const tosms = (data) =>{
 }
 
 const tochat = (conversation,creds)=>{
-  navigation.navigate("Chatting",{"conversationId":conversation,"credentials":creds})
+  navigation.navigate("Chatting",{"conversationId":conversation,"credentials":creds,"userdata": conversation})
 }
 
 useEffect(()=>{

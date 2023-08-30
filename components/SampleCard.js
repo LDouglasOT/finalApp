@@ -22,7 +22,7 @@ const DatingAppCard = ({ item, navigate, id, gotoProfile }) => {
   const IsFocused = useIsFocused()
   const [checkonline, setCheckonline] = useState([])
   const [conversation, setConversation] = useState([])
-  
+
   useEffect(() => {
     setImage(item.imgx ?? item.imgxx ?? item.imgxxx ?? item.imgxxxx ?? "https://img.freepik.com/free-photo/african-woman-posing-looking-up_23-2148747978.jpg?w=360&t=st=1682754347~exp=1682754947~hmac=1bd1626763ae44647968e93b5d78a660a66e5d3892fe10d4263f6d2fd81c41d7");
   }, [0])
@@ -39,12 +39,12 @@ const DatingAppCard = ({ item, navigate, id, gotoProfile }) => {
       }
       const user = JSON.parse(await AsyncStorage.getItem("credentials"))
       const authToken = user.token; // Replace this with your actual authorization token
-    
+
       const headers = {
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      const response = await axios.post("http://192.168.18.5:3001/api/like", data,{headers})
+      const response = await axios.post("https://yodatebackend.tech/api/like", data, { headers })
       if (response.status == 200) {
 
         let liked = JSON.parse(await AsyncStorage.getItem("likedProfiles")) || [];
@@ -56,30 +56,30 @@ const DatingAppCard = ({ item, navigate, id, gotoProfile }) => {
     }
   }
 
-  useEffect(()=>{
-    const checkLiked =async()=>{
-      try{
-      const liked = JSON.parse(await AsyncStorage.getItem("likedProfiles")) ||[]
-      console.log(liked)
-        if(liked.includes(item.id.toString())){
+  useEffect(() => {
+    const checkLiked = async () => {
+      try {
+        const liked = JSON.parse(await AsyncStorage.getItem("likedProfiles")) || []
+        console.log(liked)
+        if (liked.includes(item.id.toString())) {
           setLiked(true)
         }
-      }catch(err){
+      } catch (err) {
         console.log(err.message)
       }
     }
     checkLiked()
-    const checkOnline = async() =>{
+    const checkOnline = async () => {
       console.log(item.id)
       const checkusers = online.some(obj => obj.userId === item.id);
       // console.log(".....................................")
       console.log(checkusers.userId)
-      if(checkusers){
+      if (checkusers) {
         setStatus(true)
       }
     }
     checkOnline()
-  },[sockets])
+  }, [sockets])
 
   useEffect(() => {
     sockets.on("getUsers", () => {
@@ -92,14 +92,14 @@ const DatingAppCard = ({ item, navigate, id, gotoProfile }) => {
     checkOnline();
   }, [online]);
 
-  const checkOnline = async() =>{
+  const checkOnline = async () => {
     console.log(item.id)
-    const checkusers = online.filter(usersonline=>usersonline.userId === item.id)
-      // console.log(".....................................")
+    const checkusers = online.filter(usersonline => usersonline.userId === item.id)
+    // console.log(".....................................")
     console.log(checkusers)
-    if(checkusers){
-        setStatus(true)
-      }
+    if (checkusers) {
+      setStatus(true)
+    }
   }
 
   return (
@@ -120,20 +120,20 @@ const DatingAppCard = ({ item, navigate, id, gotoProfile }) => {
           </View>
         </View>
 
-        <View style={styles.buttonsContainer}>          
+        <View style={styles.buttonsContainer}>
           <TouchableOpacity style={styles.buttonx} onPress={() => navigate(item, id)} >
-                  <Text style={styles.buttonText}>send Message</Text>
+            <Text style={styles.buttonText}>send Message</Text>
           </TouchableOpacity>
 
-        {!like ? <TouchableOpacity style={styles.button} onPress={() => Like()}>
-          
-          <Text style={styles.buttonText}>Like</Text>
-        </TouchableOpacity>
-        :
-        <View style={styles.buttonxx}>
-          <Text style={styles.buttonText}>Liked</Text>
-        </View>
-        }
+          {!like ? <TouchableOpacity style={styles.button} onPress={() => Like()}>
+
+            <Text style={styles.buttonText}>Like</Text>
+          </TouchableOpacity>
+            :
+            <View style={styles.buttonxx}>
+              <Text style={styles.buttonText}>Liked</Text>
+            </View>
+          }
         </View>
       </View>
     </TouchableOpacity>
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     shadowColor: '#000',
     width: '97%',
-    height:500,
+    height: 500,
     marginHorizontal: 'auto',
     shadowOffset: {
       width: 0,
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginTop: 16
-    
+
   },
   // button: {
   //   alignItems: 'center',
@@ -223,33 +223,33 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.2)',
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth:1,
-    borderColor:'white'
+    borderWidth: 1,
+    borderColor: 'white'
   },
   buttonText: {
     color: '#ffffff',
     fontWeight: 'bold',
   },
-  buttonx:{
+  buttonx: {
     // width: 100,
     height: 40,
     borderRadius: 20,
     backgroundColor: 'rgba(255, 255, 255, 0.2)',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal:14,
-    borderWidth:1,
-    borderColor:'white'
+    paddingHorizontal: 14,
+    borderWidth: 1,
+    borderColor: 'white'
   },
-  buttonxx:{
+  buttonxx: {
     width: 100,
     height: 40,
     borderRadius: 20,
     backgroundColor: COLORS.pink,
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth:1,
-    borderColor:COLORS.pink
+    borderWidth: 1,
+    borderColor: COLORS.pink
   }
 });
 
