@@ -1,0 +1,50 @@
+{
+  "expo": {
+    "name": "yodate",
+    "slug": "yodate",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/Images/spash.jpeg",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "plugins": [
+      [
+        
+         "expo-notifications",
+         {
+             "icon": "./local/assets/Images/logo.png",
+             "color": "#ff0080",
+             "sounds": [
+              "./assets/sound/mixkit-dry-pop-up-notification-alert-2356.wav"
+            ]
+         }
+      ]
+   ],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/Images/logo.png",
+        "backgroundColor": "#ffffff"
+      },
+      "useNextNotificationsApi":true,
+      "package": "com.douglas_luzinda.yodate"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "5f42d749-992b-40c3-88e4-0f4e2edbbb3f"
+      }
+    }
+  }
+}
