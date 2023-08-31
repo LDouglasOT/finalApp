@@ -30,7 +30,7 @@ export function MatchProvider({ children }) {
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      const res = await axios.post("https://yodatebackend.tech/api/likedprofiles", json, { headers })
+      const res = await axios.post("http://192.168.100.57:3001/api/likedprofiles", json, { headers })
       if (res.status == 200) {
 
         setMatches(res.data)
@@ -66,7 +66,7 @@ export function MatchProvider({ children }) {
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      const res = await axios.post("https://yodatebackend.tech/api/mylikes", json, { headers: headers })
+      const res = await axios.post("http://192.168.100.57:3001/api/mylikes", json, { headers: headers })
       if (res.status == 200) {
 
         setMatches(res.data)

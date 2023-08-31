@@ -27,7 +27,7 @@ const MessageComponent = ({ message, own }) => {
       const creds = JSON.parse(await AsyncStorage.getItem("credentials"))
       if (!message.seen && message.sender !== creds.id) {
         try {
-          const response = await axios.put("https://yodatebackend.tech/api/messages/status", { id: message.id }, { headers })
+          const response = await axios.put("http://192.168.100.57:3001/api/messages/status", { id: message.id }, { headers })
           if (response.status == 200) {
           }
         } catch (err) {

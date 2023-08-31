@@ -51,7 +51,7 @@ const BoostProfileBottomSheet = ({ isVisible, onClose }) => {
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      const res = await axios.post("https://yodatebackend.tech/api/promote", paymentdata, { headers: headers })
+      const res = await axios.post("http://192.168.100.57:3001/api/promote", paymentdata, { headers: headers })
       if (res.status == 200) {
         setOption(4)
         setTimeout(() => {

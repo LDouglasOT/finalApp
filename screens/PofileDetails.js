@@ -84,7 +84,7 @@ const PofileDetails = ({ navigation }) => {
         "img": images
       }
       setVisible(true)
-      const res = await axios.post("https://yodatebackend.tech/api/register", data)
+      const res = await axios.post("http://192.168.100.57:3001/api/register", data)
       if (res.status == 200) {
         await AsyncStorage.setItem(
           'profilexdata',

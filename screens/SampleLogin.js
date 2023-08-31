@@ -46,7 +46,7 @@ const SampleLogin = ({ navigation }) => {
         "phoneNumber": phoneNumber, "password": Password
       }
 
-      const res = await axios.post("https://yodatebackend.tech/api/login", data)
+      const res = await axios.post("http://192.168.100.57:3001/api/login", data)
       console.log("login start")
       if (res.status == 200) {
         const data = await AsyncStorage.setItem("credentials", JSON.stringify(res.data))

@@ -65,7 +65,7 @@ const PersonalPosts = ({ navigation, userid, FirstName, LastName }) => {
                 'Content-Type': 'application/json',
             };
             console.log("Fetch personalise moments")
-            const res = await axios.get(`https://yodatebackend.tech/api/personalmoments/${userid}`, { headers: headers })
+            const res = await axios.get(`http://192.168.100.57:3001/api/personalmoments/${userid}`, { headers: headers })
             if (res.status == 200) {
                 setProfiles(res.data.data)
             }
@@ -108,7 +108,7 @@ const PersonalPosts = ({ navigation, userid, FirstName, LastName }) => {
                 Authorization: `${authToken}`,
                 'Content-Type': 'application/json',
             };
-            const res = await axios.post("https://yodatebackend.tech/api/promoted", data, { headers: headers })
+            const res = await axios.post("http://192.168.100.57:3001/api/promoted", data, { headers: headers })
             if (res.status == 200) {
                 console.log(res.status)
                 setPromoted(res.data)

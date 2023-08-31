@@ -16,6 +16,7 @@ export function MessageProvider({ children }) {
   const [messageaLoader, setMessageLoader] = useState(false)
 
   const fetchConversations = async () => {
+    console.log("Fetching your conversations...")
     setMessageLoader(true)
     try {
       const data = JSON.parse(await AsyncStorage.getItem("credentials"))
@@ -27,12 +28,12 @@ export function MessageProvider({ children }) {
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      const response = await axios.get(`https://yodatebackend.tech/api/conversation/${data.id}`, { headers: headersd })
+      const response = await axios.get(`http://192.168.100.57:3001/api/conversation/${data.id}`, { headers: headers })
       if (response.status == 200) {
         setUsermatches(response.data.conversations)
       }
     } catch (err) {
-
+      console.log("There was an error fetching the conversations",err.message)
     }
     setMessageLoader(false)
   }
@@ -51,7 +52,7 @@ export function MessageProvider({ children }) {
         'Content-Type': 'application/json',
       };
       const response = await axios.post(
-        "https://yodatebackend.tech/api/matchedusers",
+        "http://192.168.100.57:3001/api/matchedusers",
         json, { headers: headers }
       );
       if (response.status === 200) {
@@ -74,7 +75,7 @@ export function MessageProvider({ children }) {
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      const response = await axios.get(`https://yodatebackend.tech/api/conversation/${data.id}`, { headers: headers })
+      const response = await axios.get(`http://192.168.100.57:3001/api/conversation/${data.id}`, { headers: headers })
       if (response.status == 200) {
         setUsermatches(response.data.conversations)
       }

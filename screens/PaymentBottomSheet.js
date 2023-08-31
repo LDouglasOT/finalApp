@@ -60,7 +60,7 @@ const PaymentBottomSheet = ({ isVisible, onClose, onSubmitPayment }) => {
       };
       setLoading(true);
       const req = await axios.post(
-        'https://yodatebackend.tech/api/subscribe',
+        'http://192.168.100.57:3001/api/subscribe',
         data,
         { headers: headers }
       );

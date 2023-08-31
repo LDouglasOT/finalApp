@@ -64,7 +64,7 @@ const BoostedProfilesPage = ({ navigation }) => {
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      const res = await axios.get(`https://yodatebackend.tech/api/moments/${skip}`, { headers: headers })
+      const res = await axios.get(`http://192.168.100.57:3001/api/moments/${skip}`, { headers: headers })
       if (res.status == 200) {
         setProfiles(res.data.data)
         console.log(res.data.data)
@@ -109,7 +109,7 @@ const BoostedProfilesPage = ({ navigation }) => {
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      const res = await axios.post("https://yodatebackend.tech/api/promoted", data, { headers: headers })
+      const res = await axios.post("http://192.168.100.57:3001/api/promoted", data, { headers: headers })
       if (res.status == 200) {
         console.log(res.status)
         setPromoted(res.data)

@@ -53,7 +53,7 @@ const RenderProfile = ({ item, navigation, showSnackbar, localdata }) => {
           Authorization: `${authToken}`,
           'Content-Type': 'application/json',
         };
-        const response = await axios.post("https://yodatebackend.tech/api/conversation", convo, { headers })
+        const response = await axios.post("http://192.168.100.57:3001/api/conversation", convo, { headers })
         if (response.status == 201 || response.status == 200) {
           showSnackbar("Message sent successfully")
         }

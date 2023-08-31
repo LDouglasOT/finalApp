@@ -29,7 +29,7 @@ const Gifts = ({ navigation }) => {
           Authorization: `${authToken}`,
           'Content-Type': 'application/json',
         };
-        const response = await axios.get("https://yodatebackend.tech/api/getgifts", { headers: headers })
+        const response = await axios.get("http://192.168.100.57:3001/api/getgifts", { headers: headers })
         if (response.status == 200) {
           setLoading(false)
           console.log(response.data)
@@ -67,7 +67,7 @@ const Gifts = ({ navigation }) => {
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      const response = await axios.get(`https://yodatebackend.tech/api/getusergifts/${data.id}`, { headers: headers })
+      const response = await axios.get(`http://192.168.100.57:3001/api/getusergifts/${data.id}`, { headers: headers })
       if (response.status == 200) {
         setMyGiftsLoading(true)
         setGifts(response.data)
@@ -103,7 +103,7 @@ const Gifts = ({ navigation }) => {
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      const response = await axios.post("https://yodatebackend.tech/api/buyingift", payload, { headers: headers })
+      const response = await axios.post("http://192.168.100.57:3001/api/buyingift", payload, { headers: headers })
       if (response.status == 201) {
         setLoading(false);
         setSuccess(false)

@@ -130,7 +130,8 @@ const SwipeScreen = ({ navigation }) => {
       setIsLoading(true);
       try {
         const data = JSON.parse(await AsyncStorage.getItem("credentials"))
-        const skip = JSON.parse(await AsyncStorage.getItem("skipped_data")) || 0
+        const skip = JSON.parse(await AsyncStorage.getItem("skips")) || 0
+        console.log("The skips are..........",skip)
         setLocaldata(data)
         setUsername(data.firstname)
         const json = {
@@ -143,14 +144,20 @@ const SwipeScreen = ({ navigation }) => {
           Authorization: `${authToken}`,
           'Content-Type': 'application/json',
         };
-        const res = await axios.post("https://yodatebackend.tech/api/matches", json, { headers: headers })
+        console.log("Making the api call..............................")
+        const res = await axios.post("http://192.168.100.57:3001/api/matches", json, { headers: headers })
         if (res.status == 200) {
+          console.log("Skip data is ...................",res.data.skip)
           if (res.data.flush) {
             res.data.skip = 0
           }
+
           await AsyncStorage.setItem("skips", JSON.stringify(res.data.skip))
           setData([...res.data.data, data])
           setIsLoading(false);
+        }else if(res.status == 2001){
+          setisFetchingMore(false)
+          setSubscription(true)
         }
       } catch (err) {
         setIsLoading(false);
@@ -183,7 +190,7 @@ const SwipeScreen = ({ navigation }) => {
           Authorization: `${authToken}`,
           'Content-Type': 'application/json',
         };
-        const response = await axios.post("https://yodatebackend.tech/api/conversation", convo, { headers: headers })
+        const response = await axios.post("http://192.168.100.57:3001/api/conversation", convo, { headers: headers })
         if (response.status == 201 || response.status == 200) {
           navigation.navigate("Chatting", { "conversationId": response.data[0], "credentials": creds, "userdata": data })
         }
@@ -226,7 +233,7 @@ const SwipeScreen = ({ navigation }) => {
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      const res = await axios.post("https://yodatebackend.tech/api/matches", json, { headers: headers });
+      const res = await axios.post("http://192.168.100.57:3001/api/matches", json, { headers: headers });
       if (res.status == 200) {
         setisFetchingMore(false)
         if (res.data.length < 1) {

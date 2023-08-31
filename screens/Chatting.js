@@ -25,7 +25,7 @@ import { useIsFocused } from '@react-navigation/native';
 const CustomScrollView = wrapScrollView(ScrollView);
 
 const MainComponent = ({ navigation, route }) => {
-  const { conversationId,userdata,credentials } = route.params;
+  const { conversationId, userdata, credentials } = route.params;
   const [sms, setSms] = useState([])
   const [typing, setTyping] = useState(false)
   const inputRef = useRef(null);
@@ -42,7 +42,7 @@ const MainComponent = ({ navigation, route }) => {
   const [sendingsms, setSendingsms] = useState(false)
   const [isSendingGift, setIsSendingGift] = useState(false)
   const [giftError, setGiftError] = useState(false)
-  const isFocused =useIsFocused()
+  const isFocused = useIsFocused()
   const [errmessage, setErrmessage] = useState("You have insufficient gifts")
   useEffect(() => {
     setGifting(false)
@@ -57,9 +57,10 @@ const MainComponent = ({ navigation, route }) => {
   });
   useEffect(() => {
     sockets.on("getGift", () => afterGift())
-    if(!currentUser){
+    if (!currentUser) {
       initialLoad()
     }
+
   }, [sockets])
   useEffect(() => {
     initialLoad()
@@ -71,11 +72,10 @@ const MainComponent = ({ navigation, route }) => {
 
   async function initialLoad() {
     try {
-      fetchConversations()
-      const userlogged = conversationId?.chatUser.filter((item) => item.id !== credentials.id)
-      console.log("credentials are ",credentials)
+      await fetchConversations()
+      console.log(conversationId)
+      const userlogged = conversationId?.chatUser.filter((item) => item.id !== currentUser.id)
       setCurrentuser(userlogged[0])
-      console.log("userId is", userlogged[0].id)
       changesms(userlogged[0].id)
       setIsLoading(false)
     } catch (err) {
@@ -142,7 +142,7 @@ const MainComponent = ({ navigation, route }) => {
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      const response = await axios.get("https://yodatebackend.tech/api/messages/" + conversationId.id, { headers: headers })
+      const response = await axios.get("http://192.168.100.57:3001/api/messages/" + conversationId.id, { headers: headers })
       if (response.status == 200) {
         setSms(response.data)
       }
@@ -152,9 +152,9 @@ const MainComponent = ({ navigation, route }) => {
   }
 
   const sendMessage = async () => {
-    
+
     try {
-      
+
       if (content == "") {
         return
       }
@@ -174,7 +174,7 @@ const MainComponent = ({ navigation, route }) => {
         "seen": true,
         "createAt": Date.now()
       }]
-      
+
       setSms([...sms, ...datanow])
       setContent("")
       const data = JSON.parse(await AsyncStorage.getItem("credentials"))
@@ -183,7 +183,7 @@ const MainComponent = ({ navigation, route }) => {
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      let response = await axios.post("https://yodatebackend.tech/api/messages/new", messages_content, { headers: headers })
+      let response = await axios.post("http://192.168.100.57:3001/api/messages/new", messages_content, { headers: headers })
 
       if (response.status == 200) {
         response = response.data
