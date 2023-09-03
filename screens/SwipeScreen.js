@@ -30,6 +30,7 @@ const SwipeScreen = ({ navigation }) => {
   const { sockets, updateUser, getCurrentUser } = useContext(LoginContext)
   const [subscription, setSubscription] = useState(false);
   const [isFetchingMore, setisFetchingMore] = useState(false)
+  const [ShouldFetch, setisShouldFetch] = useState(false)
 
   const { fetchData, fetchConversations, userMatches, subscribed, checksubscription, afterGift } = useContext(MessageContext)
   // const {setupNotificationListener,saveTokenToLocalStorage,registerForPushNotificationsAsync,saveUserIdToLocalStorage} = useContext(MatchContext)
@@ -124,42 +125,43 @@ const SwipeScreen = ({ navigation }) => {
       />
     );
   }
-  const [data, setData] = useState([])
+  const [ugandadates, setData] = useState([])
   useEffect(() => {
     async function fetchMatches() {
+
       setIsLoading(true);
       try {
-        const data = JSON.parse(await AsyncStorage.getItem("credentials"))
-        const skip = JSON.parse(await AsyncStorage.getItem("skips")) || 0
-        console.log("The skips are..........",skip)
-        setLocaldata(data)
-        setUsername(data.firstname)
+        const userdata = JSON.parse(await AsyncStorage.getItem("credentials"))
+        setLocaldata(userdata)
+        setUsername(userdata.firstname)
         const json = {
-          "id": data.id,
-          "skip": skip ? parseInt(skip) : 0,
-          "gender": data.gender
+          "id": userdata.id,
+          "skip": data.length,
+          "gender": userdata.gender
         }
-        const authToken = data.token; // Replace this with your actual authorization token
+        const authToken = userdata.token; // Replace this with your actual authorization token
         const headers = {
           Authorization: `${authToken}`,
           'Content-Type': 'application/json',
         };
-        console.log("Making the api call..............................")
-        const res = await axios.post("http://192.168.100.57:3001/api/matches", json, { headers: headers })
+        const res = await axios.post("http://192.168.18.14:3001/api/matches", json, { headers: headers })
         if (res.status == 200) {
-          console.log("Skip data is ...................",res.data.skip)
-          if (res.data.flush) {
-            res.data.skip = 0
-          }
-
-          await AsyncStorage.setItem("skips", JSON.stringify(res.data.skip))
-          setData([...res.data.data, data])
+          console.log("//////////////////////////")
+          console.log("//////////////////////////")
+          console.log("//////////////////////////")
+          console.log("//////////////////////////")
+          console.log(res.data)
+          setData([...res.data.data])
           setIsLoading(false);
-        }else if(res.status == 2001){
+        } else if (res.status == 201) {
+          console.log("poor status")
+          setisShouldFetch(false)
+          setIsLoading(false);
           setisFetchingMore(false)
           setSubscription(true)
         }
       } catch (err) {
+        console.log(err.message);
         setIsLoading(false);
       }
     }
@@ -190,7 +192,7 @@ const SwipeScreen = ({ navigation }) => {
           Authorization: `${authToken}`,
           'Content-Type': 'application/json',
         };
-        const response = await axios.post("http://192.168.100.57:3001/api/conversation", convo, { headers: headers })
+        const response = await axios.post("http://192.168.18.14:3001/api/conversation", convo, { headers: headers })
         if (response.status == 201 || response.status == 200) {
           navigation.navigate("Chatting", { "conversationId": response.data[0], "credentials": creds, "userdata": data })
         }
@@ -218,33 +220,27 @@ const SwipeScreen = ({ navigation }) => {
   }
 
   const fetchMoreUsers = async () => {
+    if (subscription) {
+      return
+    }
     setisFetchingMore(true)
     try {
-      const skip = JSON.parse(await AsyncStorage.getItem("skipped_data")) || 0
-      const json = {
-        "id": localdata.id,
-        "skip": skip ? parseInt(skip) : 0,
-        "gender": localdata.gender
-      }
-      console.log(json)
       const data = JSON.parse(await AsyncStorage.getItem("credentials"));
+      const json = {
+        "id": data.id,
+        "gender": data.gender
+      }
+  
       const authToken = data.token; // Replace this with your actual authorization token
       const headers = {
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      const res = await axios.post("http://192.168.100.57:3001/api/matches", json, { headers: headers });
+      const res = await axios.post("http://192.168.18.14:3001/api/matches", json, { headers: headers });
       if (res.status == 200) {
         setisFetchingMore(false)
-        if (res.data.length < 1) {
-          console.log("Empty screens")
-        }
-        console.log(res.data)
-        if (res.data.flush) {
-          res.data.skip = 0
-        }
-        await AsyncStorage.setItem("skips", JSON.stringify(res.data.skip))
-        setData([data, ...res.data.data])
+
+        setData([ugandadates, ...res.data.data])
       } else if (res.status == 201) {
         setisFetchingMore(false)
         setSubscription(true)
@@ -297,7 +293,12 @@ const SwipeScreen = ({ navigation }) => {
       </View>
     )
   }
-
+  const onClosed = () => {
+    setSubscription(false)
+    setTimeout(() => {
+      fetchMoreUsers()
+    }, 500)
+  }
   return (
     <View style={styles.container}>
       <ProfilePopup isVisible={isVisible} />
@@ -314,17 +315,17 @@ const SwipeScreen = ({ navigation }) => {
           setisVisible(true)
         }}
       />
-      {subscription && <PaymentBottomSheet onClose={() => setSubscription(false)} />}
+      {subscription && <PaymentBottomSheet onClose={() => onClosed()} />}
       <View style={{ marginVertical: 2, backgroundColor: "orange" }}></View>
       <FlatList
-        data={data}
+        data={ugandadates}
         onEndReached={fetchMoreUsers}
         onEndReachedThreshold={0.1}
         renderItem={({ item }) => (
           <View style={{ display: 'flex', alignContent: 'center', alignItems: 'center' }}>
             <DatingAppCard gotoProfile={gotoProfile} navigate={SelectedUser} item={item} id={localdata.id} />
           </View>)}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item?.id}
         ItemSeparatorComponent={FlatListItemSeparator}
         ListEmptyComponent={
           <View

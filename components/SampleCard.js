@@ -17,7 +17,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const DatingAppCard = ({ item, navigate, id, gotoProfile }) => {
-  const [image, setImage] = useState("https://img.freepik.com/free-photo/african-woman-posing-looking-up_23-2148747978.jpg?w=360&t=st=1682754347~exp=1682754947~hmac=1bd1626763ae44647968e93b5d78a660a66e5d3892fe10d4263f6d2fd81c41d7")
+  const [image, setImage] = useState(item.Profilepic)
   const [status, setStatus] = useState(false)
   const IsFocused = useIsFocused()
   const [checkonline, setCheckonline] = useState([])
@@ -44,7 +44,7 @@ const DatingAppCard = ({ item, navigate, id, gotoProfile }) => {
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      const response = await axios.post("http://192.168.100.57:3001/api/like", data, { headers })
+      const response = await axios.post("http://192.168.18.14:3001/api/like", data, { headers })
       if (response.status == 200) {
 
         let liked = JSON.parse(await AsyncStorage.getItem("likedProfiles")) || [];

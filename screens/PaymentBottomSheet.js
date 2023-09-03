@@ -44,23 +44,29 @@ const PaymentBottomSheet = ({ isVisible, onClose, onSubmitPayment }) => {
         }, 3000);
         return;
       }
+      const userdata = await JSON.parse(await AsyncStorage.getItem("credentials"));
+      console.log(userdata);
+
+      let reason = `Subscription for ${userdata?.firstname} ${userdata?.lastname} ${userdata.gender} at ${new Date()}`
       const data = {
-        amount: numofmonths * 5000,
+        amount: numofmonths * 200,
         phone: phoneNumber,
         numofmonths: numofmonths,
+        reason: reason,
+
       };
       const user = JSON.parse(
         await AsyncStorage.getItem('credentials')
       );
       const authToken = user.token; // Replace this with your actual authorization token
-
+      data.id = user.id;
       const headers = {
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
       setLoading(true);
       const req = await axios.post(
-        'http://192.168.100.57:3001/api/subscribe',
+        'http://192.168.18.14:3001/api/subscribe',
         data,
         { headers: headers }
       );
@@ -135,7 +141,7 @@ const PaymentBottomSheet = ({ isVisible, onClose, onSubmitPayment }) => {
               <Entypo name="plus" size={20} color="black" />
             </TouchableOpacity>
           </View>
-          <Text style={{ marginVertical: 5 }}>{numofmonths} Month/s - {numofmonths * 5000}</Text>
+          <Text style={{ marginVertical: 5, fontSize: 15, fontWeight: 'bold' }}>{numofmonths} Month/s - {numofmonths * 5000}</Text>
           <TextInput
             style={styles.input}
             placeholder="Enter phone number to charge"
@@ -145,7 +151,7 @@ const PaymentBottomSheet = ({ isVisible, onClose, onSubmitPayment }) => {
           />
           {incorrect && (
             <Text style={styles.errorText}>
-              Enter correct phone number
+              Enter correct Uganda phone number ie 078...
             </Text>
           )}
           <View style={styles.additionalFeatures}>
@@ -187,7 +193,7 @@ const styles = StyleSheet.create({
     paddingVertical: 30,
     borderRadius: 20,
     width: '80%',
-    Height: '90%',
+    height: '80%',
 
   },
   title: {

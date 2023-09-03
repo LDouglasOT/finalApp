@@ -12,7 +12,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const SpotlightShowcase = ({ promoted, showSnackbar, navigation, localdata }) => {
-  const { fetchData, fetchConversations, userMatches } = useContext(MessageContext)
+  const { userMatches } = useContext(MessageContext)
   const scrollX = useRef(new Animated.Value(0)).current;
   const gotoProfile = (datanow) => {
     console.log(datanow)
@@ -52,7 +52,7 @@ const SpotlightShowcase = ({ promoted, showSnackbar, navigation, localdata }) =>
           Authorization: `${authToken}`,
           'Content-Type': 'application/json',
         };
-        const response = await axios.post("http://192.168.100.57:3001/api/conversation", convo, { headers: headers })
+        const response = await axios.post("http://192.168.18.14:3001/api/conversation", convo, { headers: headers })
         if (response.status == 201 || response.status == 200) {
           showSnackbar("Message sent successfully")
         }

@@ -31,7 +31,7 @@ const Phone = ({ changestate, changecodestate, ChangeCodErrorName, settingReason
     }
     try {
       changestate(true)
-      const res = await axios.post("http://192.168.100.57:3001/api/generateotp", data)
+      const res = await axios.post("http://192.168.18.14:3001/api/generateotp", data)
 
       if (res.status == 200) {
         changestate(false)

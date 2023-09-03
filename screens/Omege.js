@@ -44,7 +44,7 @@ const Omege = ({ navigation }) => {
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      const res = await axios.post("http://192.168.100.57:3001/api/random", { 'gender': data.gender, "users": onlineuser }, { headers: headers })
+      const res = await axios.post("http://192.168.18.14:3001/api/random", { 'gender': data.gender, "users": onlineuser }, { headers: headers })
 
       if (res.status == 200) {
         console.log(res.data)
@@ -54,8 +54,9 @@ const Omege = ({ navigation }) => {
     fetchOnline()
 
     async function getPromoted() {
+      const userdata = JSON.parse(await AsyncStorage.getItem("credentials"))
       const data = {
-        "gender": localdata.gender
+        "gender": userdata.gender
       }
       const datax = JSON.parse(await AsyncStorage.getItem("credentials"));
       const authToken = datax.token; // Replace this with your actual authorization token
@@ -63,7 +64,7 @@ const Omege = ({ navigation }) => {
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      const promoted = await axios.post("http://192.168.100.57:3001/api/promoted", data, { headers: headers })
+      const promoted = await axios.post("http://192.168.18.14:3001/api/promoted", data, { headers: headers })
       if (promoted.status == 200) {
         setPromoted(promoted.data)
       }

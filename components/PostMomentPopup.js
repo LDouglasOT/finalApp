@@ -46,7 +46,7 @@ const PostMomentPopup = ({ moment, onClose, onPostMoment, getMoments }) => {
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      const response = await axios.post("http://192.168.100.57:3001/api/moments", data, { headers })
+      const response = await axios.post("http://192.168.18.14:3001/api/moments", data, { headers })
       console.log(response.status)
       if (response.status == 201) {
         setPosting(false)

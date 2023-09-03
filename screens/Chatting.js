@@ -142,7 +142,7 @@ const MainComponent = ({ navigation, route }) => {
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      const response = await axios.get("http://192.168.100.57:3001/api/messages/" + conversationId.id, { headers: headers })
+      const response = await axios.get("http://192.168.18.14:3001/api/messages/" + conversationId.id, { headers: headers })
       if (response.status == 200) {
         setSms(response.data)
       }
@@ -183,7 +183,7 @@ const MainComponent = ({ navigation, route }) => {
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      let response = await axios.post("http://192.168.100.57:3001/api/messages/new", messages_content, { headers: headers })
+      let response = await axios.post("http://192.168.18.14:3001/api/messages/new", messages_content, { headers: headers })
 
       if (response.status == 200) {
         response = response.data

@@ -13,7 +13,7 @@ const ConfirmCode = ({ ResendOtp, signupchange, changestate, changecodestate, Ch
     }
     try {
       changestate(true)
-      const res = await axios.post("http://192.168.100.57:3001/api/verifyotp", data)
+      const res = await axios.post("http://192.168.18.14:3001/api/verifyotp", data)
       if (res.status == 200) {
         changestate(false)
         changestate(false)

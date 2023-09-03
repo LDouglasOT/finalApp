@@ -33,7 +33,7 @@ const Matches = ({ like, tag }) => {
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      const res = await axios.post("http://192.168.100.57:3001/api/matchedusers", json)
+      const res = await axios.post("http://192.168.18.14:3001/api/matchedusers", json)
       console.log(res.data)
       if (res.status == 200) {
 

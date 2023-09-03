@@ -69,7 +69,7 @@ const DetailsPage = ({ route, navigation }) => {
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      const res = await axios.post('http://192.168.100.57:3001/api/comment', data, { headers: headers });
+      const res = await axios.post('http://192.168.18.14:3001/api/comment', data, { headers: headers });
       if (res.status === 200) {
         console.log(res.data);
         setComments([res.data, ...comments]);
@@ -102,7 +102,7 @@ const DetailsPage = ({ route, navigation }) => {
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      const response = await axios.post('http://192.168.100.57:3001/api/likemoment', data, { headers: headers });
+      const response = await axios.post('http://192.168.18.14:3001/api/likemoment', data, { headers: headers });
       if (response.status === 200) {
         setLiking(false);
         liked.push(moment.id.toString()); // Convert moment.id to string before pushing

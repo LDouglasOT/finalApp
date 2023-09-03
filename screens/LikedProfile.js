@@ -67,7 +67,7 @@ const LikedProfile = ({ route, navigation }) => {
           Authorization: `${authToken}`,
           'Content-Type': 'application/json',
         };
-        const response = await axios.post("http://192.168.100.57:3001/api/conversation", convo, { headers: headers })
+        const response = await axios.post("http://192.168.18.14:3001/api/conversation", convo, { headers: headers })
         if (response.status == 201 || response.status == 200) {
           navigation.navigate("Chatting", { "conversationId": response.data[0], "credentials": creds, "userdata": data })
         }
@@ -91,7 +91,7 @@ const LikedProfile = ({ route, navigation }) => {
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      const response = await axios.post("http://192.168.100.57:3001/api/like", data, { headers: headers })
+      const response = await axios.post("http://192.168.18.14:3001/api/like", data, { headers: headers })
       if (response.status == 201) {
       }
       if (response.status == 200) {

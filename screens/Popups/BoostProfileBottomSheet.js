@@ -38,20 +38,23 @@ const BoostProfileBottomSheet = ({ isVisible, onClose }) => {
         return
       }
 
-      let data = JSON.parse(await AsyncStorage.getItem("credentials"))
+      let userdata = JSON.parse(await AsyncStorage.getItem("credentials"))
+      let reason = `Subscription for ${userdata?.firstname} ${userdata?.lastname} ${userdata.gender} at ${new Date()}`
+
       const paymentdata = {
         "amount": amount,
-        "id": data.id,
+        "id": userdata.id,
         "img": selecturi,
-        "phone": phone
+        "phone": phone,
+        "reason": reason
       }
       console.log(paymentdata)
-      const authToken = data.token; // Replace this with your actual authorization token
+      const authToken = userdata.token; // Replace this with your actual authorization token
       const headers = {
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      const res = await axios.post("http://192.168.100.57:3001/api/promote", paymentdata, { headers: headers })
+      const res = await axios.post("http://192.168.18.14:3001/api/promote", paymentdata, { headers: headers })
       if (res.status == 200) {
         setOption(4)
         setTimeout(() => {
@@ -143,7 +146,7 @@ const BoostProfileBottomSheet = ({ isVisible, onClose }) => {
           <View style={{ display: 'flex', alignItems: 'center', flexDirection: 'row' }}>
             <RadioButton value="second" status={checked === 'second' ? 'checked' : 'unchecked'} onPress={() => {
               setChecked('second')
-              setAmount(10000)
+              setAmount(20000)
             }} />
             <Text style={{ fontWeight: '800' }}>1 Month for USh 20k</Text>
           </View>

@@ -37,7 +37,7 @@ const Swipe = ({ item, navigate, id }) => {
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      const response = await axios.post("http://192.168.100.57:3001/api/like", data, { headers })
+      const response = await axios.post("http://192.168.18.14:3001/api/like", data, { headers })
       if (response.status == 201) {
       }
       if (response.status == 200) {

@@ -29,7 +29,7 @@ const Gifts = ({ navigation }) => {
           Authorization: `${authToken}`,
           'Content-Type': 'application/json',
         };
-        const response = await axios.get("http://192.168.100.57:3001/api/getgifts", { headers: headers })
+        const response = await axios.get("http://192.168.18.14:3001/api/getgifts", { headers: headers })
         if (response.status == 200) {
           setLoading(false)
           console.log(response.data)
@@ -67,9 +67,9 @@ const Gifts = ({ navigation }) => {
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      const response = await axios.get(`http://192.168.100.57:3001/api/getusergifts/${data.id}`, { headers: headers })
+      const response = await axios.get(`http://192.168.18.14:3001/api/getusergifts/${data.id}`, { headers: headers })
       if (response.status == 200) {
-        setMyGiftsLoading(true)
+        setMyGiftsLoading(false)
         setGifts(response.data)
       }
     } catch (err) {
@@ -86,6 +86,7 @@ const Gifts = ({ navigation }) => {
       return
     }
     setLoading(true);
+    const data = JSON.parse(await AsyncStorage.getItem("credentials"));
     const payload = {
       "amount": selectedGift.Value,
       "phone": phoneNumber,
@@ -93,7 +94,8 @@ const Gifts = ({ navigation }) => {
       "reason": `${quantity} ${selectedGift.Name} purchase for ${phoneNumber} at ${new Date()}`,
       "name": selectedGift.Name,
       "myid": selectedGift.id,
-      "imgrurl": selectedGift.Image
+      "imgrurl": selectedGift.Image,
+      "id":data.id
     }
     console.log(payload)
     try {
@@ -103,21 +105,19 @@ const Gifts = ({ navigation }) => {
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      const response = await axios.post("http://192.168.100.57:3001/api/buyingift", payload, { headers: headers })
+      const response = await axios.post("http://192.168.18.14:3001/api/buyingift", payload, { headers: headers })
       if (response.status == 201) {
         setLoading(false);
         setSuccess(false)
         setSelectedGift(null)
-
+        fetchMyGifts()
       }
-
     } catch (err) {
       setShowsnack(false);
       setLoading(false);
       console.log(err.message)
     }
   };
-
   useEffect(() => {
     axios.post(`https://app.nativenotify.com/api/analytics`, {
       app_id: 10140,
@@ -130,7 +130,6 @@ const Gifts = ({ navigation }) => {
 
   return (
     <ScrollView>
-
       <View style={styles.container}>
         <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
           <TouchableOpacity onPress={() => navigation.pop()}>

@@ -114,7 +114,7 @@ const Profile = () => {
   <View style={{display:'flex',flexDirection:'row',justifyContent:'space-between',flexWrap:'wrap',marginBottom:150}}>
     <ProfileImage data={loggedUser?.imgx}/>
     <ProfileImage data={loggedUser?.imgxx}/>
-    <ProfileImage data={loggedUser?.imgxxx}/>
+    <ProfileImage data={loggedUser?.img}/>
     <ProfileImage data={loggedUser?.Profilepic}/>
   </View>
     </View>
