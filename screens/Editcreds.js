@@ -18,7 +18,7 @@ const Editcreds = ({ navigation }) => {
   const [facebook, setFacebook] = useState("")
   const [twitter, setTwitter] = useState("")
   const [instagram, setInstagram] = useState("")
-  const [url, setUri] = useState("http://192.168.18.14:3001/api/editcreds")
+  const [url, setUri] = useState("https://yodatebackend.tech/api/editcreds")
   const [village, setVillage] = useState("")
   const [other, setOther] = useState("")
   const [isvisible, setIsvisible] = useState(false)

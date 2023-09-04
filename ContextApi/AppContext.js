@@ -29,7 +29,7 @@ export function LoginProvider({ children }) {
       Authorization: `${authToken}`,
       'Content-Type': 'application/json',
     };
-    const response = await axios.post("http://192.168.18.14:3001/api/subscribe", data, { headers })
+    const response = await axios.post("https://yodatebackend.tech/api/subscribe", data, { headers })
     if (response.status == 200) {
       setSubscribed(false)
     } else if (response.status == 401) {
@@ -46,7 +46,7 @@ export function LoginProvider({ children }) {
       Authorization: `${authToken}`,
       'Content-Type': 'application/json',
     };
-    const response = await axios.get(`http://192.168.18.14:3001/api/currentuser/${user.id}`, { headers })
+    const response = await axios.get(`https://yodatebackend.tech/api/currentuser/${user.id}`, { headers })
     if (response.status == 200) {
       console.log(response.data)
       setLoggedUser(response.data)

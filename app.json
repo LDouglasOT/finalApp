@@ -35,7 +35,6 @@
         "foregroundImage": "./assets/Images/logo.png",
         "backgroundColor": "#ffffff"
       },
-      "useNextNotificationsApi":true,
       "package": "com.douglas_luzinda.yodate"
     },
     "web": {

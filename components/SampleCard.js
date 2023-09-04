@@ -44,7 +44,7 @@ const DatingAppCard = ({ item, navigate, id, gotoProfile }) => {
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      const response = await axios.post("http://192.168.18.14:3001/api/like", data, { headers })
+      const response = await axios.post("https://yodatebackend.tech/api/like", data, { headers })
       if (response.status == 200) {
 
         let liked = JSON.parse(await AsyncStorage.getItem("likedProfiles")) || [];

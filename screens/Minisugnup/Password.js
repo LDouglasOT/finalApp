@@ -45,7 +45,7 @@ const Password = ({ phoneNumber, ResendOtp, Phonex, signupchange, changestate, c
     }
     try {
       changestate(true)
-      const res = await axios.post("http://192.168.18.14:3001/api/signup", data)
+      const res = await axios.post("https://yodatebackend.tech/api/signup", data)
       if (res.status == 201) {
 
         await AsyncStorage.setItem(

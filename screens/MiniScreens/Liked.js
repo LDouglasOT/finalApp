@@ -34,7 +34,7 @@ const Liked = ({ like, tag }) => {
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      const res = await axios.post("http://192.168.18.14:3001/api/mylikes", json, { headers: headers });
+      const res = await axios.post("https://yodatebackend.tech/api/mylikes", json, { headers: headers });
       if (res.status == 200) {
 
         setData(res.data)

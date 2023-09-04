@@ -48,7 +48,7 @@ const SingleMoment = ({ moment, navigation, myprofile }) => {
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      const response = await axios.post('http://192.168.18.14:3001/api/likemoment', data, { headers });
+      const response = await axios.post('https://yodatebackend.tech/api/likemoment', data, { headers });
       if (response.status === 200) {
         console.log("api hit")
         setLikes(likes + 1)

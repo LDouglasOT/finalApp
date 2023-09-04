@@ -144,7 +144,7 @@ const SwipeScreen = ({ navigation }) => {
           Authorization: `${authToken}`,
           'Content-Type': 'application/json',
         };
-        const res = await axios.post("http://192.168.18.14:3001/api/matches", json, { headers: headers })
+        const res = await axios.post("https://yodatebackend.tech/api/matches", json, { headers: headers })
         if (res.status == 200) {
           console.log("//////////////////////////")
           console.log("//////////////////////////")
@@ -192,7 +192,7 @@ const SwipeScreen = ({ navigation }) => {
           Authorization: `${authToken}`,
           'Content-Type': 'application/json',
         };
-        const response = await axios.post("http://192.168.18.14:3001/api/conversation", convo, { headers: headers })
+        const response = await axios.post("https://yodatebackend.tech/api/conversation", convo, { headers: headers })
         if (response.status == 201 || response.status == 200) {
           navigation.navigate("Chatting", { "conversationId": response.data[0], "credentials": creds, "userdata": data })
         }
@@ -230,13 +230,13 @@ const SwipeScreen = ({ navigation }) => {
         "id": data.id,
         "gender": data.gender
       }
-  
+
       const authToken = data.token; // Replace this with your actual authorization token
       const headers = {
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      const res = await axios.post("http://192.168.18.14:3001/api/matches", json, { headers: headers });
+      const res = await axios.post("https://yodatebackend.tech/api/matches", json, { headers: headers });
       if (res.status == 200) {
         setisFetchingMore(false)
 

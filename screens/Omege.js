@@ -44,7 +44,7 @@ const Omege = ({ navigation }) => {
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      const res = await axios.post("http://192.168.18.14:3001/api/random", { 'gender': data.gender, "users": onlineuser }, { headers: headers })
+      const res = await axios.post("https://yodatebackend.tech/api/random", { 'gender': data.gender, "users": onlineuser }, { headers: headers })
 
       if (res.status == 200) {
         console.log(res.data)
@@ -64,7 +64,7 @@ const Omege = ({ navigation }) => {
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      const promoted = await axios.post("http://192.168.18.14:3001/api/promoted", data, { headers: headers })
+      const promoted = await axios.post("https://yodatebackend.tech/api/promoted", data, { headers: headers })
       if (promoted.status == 200) {
         setPromoted(promoted.data)
       }

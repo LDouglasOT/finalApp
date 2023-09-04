@@ -38,7 +38,7 @@ const GiftPopup = ({ onClose, handleSendGiftExternal, isSendingGift, navigation,
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      const response = await axios.get(`http://192.168.18.14:3001/api/getusergifts/${data.id}`, { headers })
+      const response = await axios.get(`https://yodatebackend.tech/api/getusergifts/${data.id}`, { headers })
       if (response.status == 200) {
         setMyGiftsLoading(false)
         setsampleGifts(response.data)

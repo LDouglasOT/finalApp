@@ -28,7 +28,7 @@ export function MessageProvider({ children }) {
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      const response = await axios.get(`http://192.168.18.14:3001/api/conversation/${data.id}`, { headers: headers })
+      const response = await axios.get(`https://yodatebackend.tech/api/conversation/${data.id}`, { headers: headers })
       if (response.status == 200) {
         setUsermatches(response.data.conversations)
       }
@@ -52,7 +52,7 @@ export function MessageProvider({ children }) {
         'Content-Type': 'application/json',
       };
       const response = await axios.post(
-        "http://192.168.18.14:3001/api/matchedusers",
+        "https://yodatebackend.tech/api/matchedusers",
         json, { headers: headers }
       );
       if (response.status === 200) {
@@ -75,7 +75,7 @@ export function MessageProvider({ children }) {
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      const response = await axios.get(`http://192.168.18.14:3001/api/conversation/${data.id}`, { headers: headers })
+      const response = await axios.get(`https://yodatebackend.tech/api/conversation/${data.id}`, { headers: headers })
       if (response.status == 200) {
         setUsermatches(response.data.conversations)
       }

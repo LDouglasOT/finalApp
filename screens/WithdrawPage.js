@@ -25,7 +25,7 @@ const WithdrawPage = ({ navigation }) => {
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      const response = await axios.get(`http://192.168.18.14:3001/api/getusergifts/${data.id}`, { headers: headers })
+      const response = await axios.get(`https://yodatebackend.tech/api/getusergifts/${data.id}`, { headers: headers })
       setTimeout(() => {
         setMyGiftsLoading(false)
       }, 5000)
@@ -78,7 +78,7 @@ const WithdrawPage = ({ navigation }) => {
         Authorization: `${authToken}`,
         'Content-Type': 'application/json',
       };
-      const response = await axios.post("http://192.168.18.14:3001/api/withdraw", datadog, { headers: headers })
+      const response = await axios.post("https://yodatebackend.tech/api/withdraw", datadog, { headers: headers })
       if (response.status == 200) {
         handleGiftDeselect()
         setLoading(false)
